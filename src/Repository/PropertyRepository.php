@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,15 +20,31 @@ class PropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, Property::class);
     }
 
-    public function findAllVisible(){
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+   
+
+    /**
+     * @return Property[]
+     */
+    public function findAllVisible() : array{
+        return $this->findVisisbleQuery()
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+            
+    }
+    /**
+     * @return Property[]
+     */
+    public function findLatest() : array{
+        return $this->findVisisbleQuery()
+            ->setMaxResults(4) //Nous permet d'avoir seuelement 4 resultats 
+            ->getQuery()
+            ->getResult();
+            
+    }
+
+    private function findVisisbleQuery() : QueryBuilder {
+        return $this->createQueryBuilder('p')
+            ->where('p.sold = false');
     }
 
     // /**
