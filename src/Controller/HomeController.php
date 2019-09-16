@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PropertyRepository;
 
+
 class HomeController extends AbstractController
 {
 
