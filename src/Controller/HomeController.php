@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PropertyRepository;
