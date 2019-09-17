@@ -7,7 +7,7 @@
     <h1>Gérer les biens</h1>
 
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
+        <div class="alert alert-success" role="alert">
             {{ message }}
         </div>
     {% endfor %}
