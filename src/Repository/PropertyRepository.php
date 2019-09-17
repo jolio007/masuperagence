@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\Query;
+
 use App\Entity\Property;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,11 +27,10 @@ class PropertyRepository extends ServiceEntityRepository
     /**
      * @return Property[]
      */
-    public function findAllVisible() : array{
-        return $this->findVisisbleQuery()
-            ->getQuery()
-            ->getResult();
-            
+    public function findAllVisibleQuery() : Query {
+        return $this->findVisibleQuery()
+            ->getQuery();
+                  
     }
     /**
      * @return Property[]
