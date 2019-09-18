@@ -9,6 +9,7 @@ use App\Entity\PropertySearch;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator\SetProxyInitializer;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -40,6 +41,16 @@ class PropertyRepository extends ServiceEntityRepository
                 ->andWhere('p.surface >= :minsurface')
                 ->setParameter('minsurface', $search->getMinSurface());
         }
+        if($search->getOptions()->count() > 0){
+            $k=0;
+            foreach($search->getOptions() as  $option) {
+                $k++;
+                $query = $query
+                    ->andWhere(":option$k MEMBER OF p.options")
+                    ->setParameter("option$k",$option);
+            }
+        }
+
 
         return $query->getQuery();
                   
