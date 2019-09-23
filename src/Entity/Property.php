@@ -3,13 +3,14 @@
 namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
@@ -40,6 +41,7 @@ class Property
 
     /**
      * @var File|null
+     * @Assert\Image(mimeTypes="image/jpeg")
      * @Vich\UploadableField(mapping="property_image", fileNameProperty="filename")
      */
     private $imageFile;
@@ -331,6 +333,9 @@ class Property
         return $this;
     }
 
+    public function getFilename(): ? String{
+        return $this->filename;
+    }
     
 
     public function setFilename(?string $filename): Property{
@@ -344,7 +349,7 @@ class Property
 
     public function setImageFile(?File $imageFile): Property{
         $this->imageFile = $imageFile;
-        if($this->image instanceof UploadedFile){
+        if($this->imageFile instanceof UploadedFile){
             $this->updated_at = new \DateTime('now');
         }
         return $this; 
